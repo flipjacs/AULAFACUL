@@ -1,5 +1,5 @@
-// const nomeLivro = 'Aprendendo JS'
-//console.log (`Você está lendo ${nomeLivro}`) 
+/* const nomeLivro = 'Aprendendo JS'
+console.log (`Você está lendo ${nomeLivro}`) */
 
 var circleAreaES5 = function circleArea(r){
     var PI = 3.14;
