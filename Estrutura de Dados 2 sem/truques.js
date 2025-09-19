@@ -17,4 +17,4 @@ const circleArea = r =>{ //a seta "=>" omite o comando function
 console.log (circleArea(2))
 
 const circleArea2 = r => 3.14 * r *r; //caso a função tenha uma única instrução, pode simplificar mais
-console.log(circleArea2(4));
+console.log(circleArea2(2));
