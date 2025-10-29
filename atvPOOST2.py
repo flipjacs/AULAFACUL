@@ -59,7 +59,7 @@ elif opcao == "Cadastro de Produtos":
         nome_produto = st.text_input("Nome do Produto")
         categoria = st.selectbox("Categoria", ["Eletrônicos", "Roupas", "Alimentos", "Móveis"])
         preco = st.number_input("Preço", min_value=0.0, format="%.2f")
-        estoque = st.slider("Quantidade em Estoque", min_value=0, step=1)
+        estoque = st.slider("Quantidade em Estoque", min_value=0, step=1, max_value=2500)
         dataValidade = st.date_input("Data de Validade",min_value=datetime.date.today(), value=datetime.date.today(), max_value=datetime.date(2050, 12, 31))  
         submit_produto = st.form_submit_button("Cadastrar Produto")
 
