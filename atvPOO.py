@@ -21,7 +21,7 @@ with st.form("formulario_cadastro"):
     nome = st.text_input("Nome Completo")
     email = st.text_input("E-mail")
     idade = st.number_input("Idade",min_value=18, max_value=65)
-    dataNasc = st.date_input("Data de nascimento:", min_value=datetime.date(1960, 1, 1))
+    dataNasc = st.date_input("Data de nascimento:", min_value=datetime.date(1960, 1, 1), max_value=datetime.date(2025, 12, 31))
     horarioFavorito = st.text_input("Horário Favorito para Entrevista")
     experiencia = st.text_area("Descreva sua experiência profissional")
     curriculo = st.file_uploader("Anexe seu currículo em PDF", type=["pdf"])

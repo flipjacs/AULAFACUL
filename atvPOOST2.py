@@ -1,0 +1,91 @@
+import streamlit as st
+import datetime
+
+st.set_page_config(
+    page_title="Gestão de Produtos",
+    page_icon="documento.png",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+st.sidebar.title("Navegação")
+opcao = st.sidebar.radio("Escolha uma opção", ["Menu Inicial","Cadastro de Fornecedores", "Cadastro de Produtos"])
+
+if opcao == "Menu Inicial":
+    st.header("Bem vindo a Aplicação!")
+    st.write("Selecione uma opção no menu lateral")
+
+elif opcao == "Cadastro de Fornecedores":
+    st.header("Formulário de Cadastro de Fornecedores")
+
+    with st.form(key="formulario_fornecedores"):
+        nome_fornecedor = st.text_input("Nome do Fornecedor")
+        cnpj = st.text_input("CNPJ")
+        telefone = st.text_input("Telefone")
+        email = st.text_input("Email")
+        cidade = st.text_input("Cidade")
+        submit_fornecedor = st.form_submit_button("Cadastrar Fornecedor")
+
+    if submit_fornecedor:
+        valid = True
+        if not nome_fornecedor.strip():
+            st.error("O nome do fornecedor é obrigatório")
+            valid = False
+        if not cnpj.strip():
+            st.error("O CNPJ é obrigatório")
+            valid = False
+        if not telefone.strip():
+            st.error("O telefone é obrigatório")
+            valid = False
+        if not email.strip():
+            st.error("O email é obrigatório")
+            valid = False
+        if not cidade.strip():
+            st.error("O nome da cidade é obrigatório")
+            valid = False
+
+        if valid:
+            st.success("Cadastro de Fornecedor enviado com sucesso!")
+            st.write(f"**Nome do Fornecedor:** {nome_fornecedor}")
+            st.write(f"**CNPJ:** {cnpj}")
+            st.write(f"**Telefone:** {telefone}")
+            st.write(f"**Email:** {email}")
+            st.write(f"**Cidade:** {cidade}")
+
+elif opcao == "Cadastro de Produtos":
+    st.header("Formulário de Cadastro de Produtos")
+
+    with st.form(key="formulario_produtos"):
+        nome_produto = st.text_input("Nome do Produto")
+        categoria = st.selectbox("Categoria", ["Eletrônicos", "Roupas", "Alimentos", "Móveis"])
+        preco = st.number_input("Preço", min_value=0.0, format="%.2f")
+        estoque = st.slider("Quantidade em Estoque", min_value=0, step=1)
+        dataValidade = st.date_input("Data de Validade",min_value=datetime.date.today(), value=datetime.date.today(), max_value=datetime.date(2050, 12, 31))  
+        submit_produto = st.form_submit_button("Cadastrar Produto")
+
+    if submit_produto:
+        valid = True
+        if not nome_produto.strip():
+            st.error("O nome do produto é obrigatório")
+            valid = False
+        if not categoria.strip():
+            st.error("A categoria é obrigatória")
+            valid = False
+        if preco <= 0:
+            st.error("O preço deve ser maior que zero")
+            valid = False
+        if estoque <= 0:
+            st.error("A quantidade em estoque deve ser maior que zero")
+            valid = False
+        if not isinstance(dataValidade, datetime.date):
+            st.error("A data de validade é obrigatória")
+            valid = False
+
+        if valid:
+            dataFormatada = dataValidade.strftime("%d/%m/%Y")
+            st.success("Cadastro de produto enviado com sucesso!")
+            st.write(f"**Nome do Produto:** {nome_produto}")
+            st.write(f"**Categoria:** {categoria}")
+            st.write(f"**Preço:** R$ {preco:.2f}")
+            st.write(f"**Quantidade em Estoque:** {estoque}")
+            st.write(f"**Data de Validade:** {dataFormatada}")
