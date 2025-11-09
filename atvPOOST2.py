@@ -1,5 +1,6 @@
 import streamlit as st
 import datetime
+from classesSt2 import Produto, Fornecedor
 
 st.set_page_config(
     page_title="Gestão de Produtos",
@@ -45,12 +46,17 @@ elif opcao == "Cadastro de Fornecedores":
             valid = False
 
         if valid:
-            st.success("Cadastro de Fornecedor enviado com sucesso!")
-            st.write(f"**Nome do Fornecedor:** {nome_fornecedor}")
-            st.write(f"**CNPJ:** {cnpj}")
-            st.write(f"**Telefone:** {telefone}")
-            st.write(f"**Email:** {email}")
-            st.write(f"**Cidade:** {cidade}")
+            try:
+                fornecedor = Fornecedor(nome_fornecedor, cnpj, telefone, email, cidade)
+                # Usei {classe.get_atributo()}
+                st.success("Cadastro de Fornecedor enviado com sucesso!")
+                st.write(f"**Nome do Fornecedor:** {fornecedor.get_nome()}")        
+                st.write(f"**CNPJ:** {fornecedor.get_cnpj()}")                    
+                st.write(f"**Telefone:** {fornecedor.get_telefone()}")            
+                st.write(f"**Email:** {fornecedor.get_email()}")                  
+                st.write(f"**Cidade:** {fornecedor.get_cidade()}")                
+            except Exception as e:
+                st.error(f"Erro ao criar fornecedor: {e}")
 
 elif opcao == "Cadastro de Produtos":
     st.header("Formulário de Cadastro de Produtos")
@@ -60,7 +66,10 @@ elif opcao == "Cadastro de Produtos":
         categoria = st.selectbox("Categoria", ["Eletrônicos", "Roupas", "Alimentos", "Móveis"])
         preco = st.number_input("Preço", min_value=0.0, format="%.2f")
         estoque = st.slider("Quantidade em Estoque", min_value=0, step=1, max_value=2500)
-        dataValidade = st.date_input("Data de Validade",min_value=datetime.date.today(), value=datetime.date.today(), max_value=datetime.date(2050, 12, 31))  
+        dataValidade = st.date_input("Data de Validade",
+                                     min_value=datetime.date.today(),
+                                     value=datetime.date.today(),
+                                     max_value=datetime.date(2050, 12, 31)) #Data no nosso padrão
         submit_produto = st.form_submit_button("Cadastrar Produto")
 
     if submit_produto:
@@ -82,10 +91,15 @@ elif opcao == "Cadastro de Produtos":
             valid = False
 
         if valid:
-            dataFormatada = dataValidade.strftime("%d/%m/%Y")
-            st.success("Cadastro de produto enviado com sucesso!")
-            st.write(f"**Nome do Produto:** {nome_produto}")
-            st.write(f"**Categoria:** {categoria}")
-            st.write(f"**Preço:** R$ {preco:.2f}")
-            st.write(f"**Quantidade em Estoque:** {estoque}")
-            st.write(f"**Data de Validade:** {dataFormatada}")
+            try:
+                produto = Produto(nome_produto, categoria, preco, estoque, dataValidade)
+
+                dataFormatada = produto.get_data_validade().strftime("%d/%m/%Y")
+                st.success("Cadastro de produto enviado com sucesso!")
+                st.write(f"**Nome do Produto:** {produto.get_nome()}")
+                st.write(f"**Categoria:** {produto.get_categoria()}")
+                st.write(f"**Preço:** R$ {produto.get_preco():.2f}")
+                st.write(f"**Quantidade em Estoque:** {produto.get_quantidade_em_estoque()}")
+                st.write(f"**Data de Validade:** {dataFormatada}")
+            except Exception as e:
+                st.error(f"Erro ao criar produto: {e}")
