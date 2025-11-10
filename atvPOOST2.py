@@ -46,15 +46,15 @@ elif opcao == "Cadastro de Fornecedores":
             valid = False
 
         if valid:
+
             try:
                 fornecedor = Fornecedor(nome_fornecedor, cnpj, telefone, email, cidade)
-                # Usei {classe.get_atributo()}
+                # >>> DIFERENÇA: mostramos os dados usando os getters do objeto
                 st.success("Cadastro de Fornecedor enviado com sucesso!")
-                st.write(f"**Nome do Fornecedor:** {fornecedor.get_nome()}")        
-                st.write(f"**CNPJ:** {fornecedor.get_cnpj()}")                    
-                st.write(f"**Telefone:** {fornecedor.get_telefone()}")            
-                st.write(f"**Email:** {fornecedor.get_email()}")                  
-                st.write(f"**Cidade:** {fornecedor.get_cidade()}")                
+                st.write(f"**Nome do Fornecedor:** {fornecedor.get_nome()}")
+                st.write(f"**CNPJ:** {fornecedor.get_cnpj()}")
+                st.write(f"**Telefone:** {fornecedor.get_telefone()}")   
+                st.write(f"**Email:** {fornecedor.get_email()}")    
             except Exception as e:
                 st.error(f"Erro ao criar fornecedor: {e}")
 
@@ -69,7 +69,7 @@ elif opcao == "Cadastro de Produtos":
         dataValidade = st.date_input("Data de Validade",
                                      min_value=datetime.date.today(),
                                      value=datetime.date.today(),
-                                     max_value=datetime.date(2050, 12, 31)) #Data no nosso padrão
+                                     max_value=datetime.date(2050, 12, 31))
         submit_produto = st.form_submit_button("Cadastrar Produto")
 
     if submit_produto:
@@ -91,8 +91,10 @@ elif opcao == "Cadastro de Produtos":
             valid = False
 
         if valid:
+
             try:
                 produto = Produto(nome_produto, categoria, preco, estoque, dataValidade)
+
 
                 dataFormatada = produto.get_data_validade().strftime("%d/%m/%Y")
                 st.success("Cadastro de produto enviado com sucesso!")
