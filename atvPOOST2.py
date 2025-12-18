@@ -49,7 +49,6 @@ elif opcao == "Cadastro de Fornecedores":
 
             try:
                 fornecedor = Fornecedor(nome_fornecedor, cnpj, telefone, email, cidade)
-                # >>> DIFERENÇA: mostramos os dados usando os getters do objeto
                 st.success("Cadastro de Fornecedor enviado com sucesso!")
                 st.write(f"**Nome do Fornecedor:** {fornecedor.get_nome()}")
                 st.write(f"**CNPJ:** {fornecedor.get_cnpj()}")
