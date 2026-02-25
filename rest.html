@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rest do Zero</title>
+</head>
+<body>
+    <h1>REST DO ZERO</h1>
+    <H3>Adicionar (POST)</H3>
+    <input type="text" id="nome" placeholder="Digite seu nome">
+    <button onclick="add()">Adicionar</button>
+    
+    <h3>Lista de Dados (GET)</h3>
+    <button onclick="listar()">Atualizar lista</button>
+    <ul id="lista"></ul>
+
+    <h3>Resposta da API (JSON)</h3>
+    <pre id="saida"></pre>
+
+    <script>
+        // Banco de Dados em Memoria
+        let banco = []
+
+        // API Simulada
+        function api(method,body){
+            return new Promise((resolve) => {
+                if (method==="GET"){
+                    resolve({
+                        status:200,
+                        json:()=>Promise.resolve(banco)
+                    })
+                }
+                if (method==="POST"){
+                    const novo ={
+                        id: banco.length +1,
+                        nome: body.nome
+                    };
+
+                    banco.push(novo);
+
+                    resolve({
+                        status:201,
+                        json:()=>Promise.resolve(novo)
+                    });
+                }
+            })
+        }
+
+        // CLIENT
+
+        function listar(){
+            api("GET")
+            .then(r=>r.json())
+            .then(d=>{
+                const ul = document.getElementById("lista")
+                ul.innerHTML = "";
+
+                d.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = `${item.id} - ${item.nome}`;
+                    ul.appendChild(li);
+                });
+                document.getElementById("saida").textContent = "GET/DADOS \n \n" + JSON.stringify(d,null,2);
+            })
+        }
+
+        function add(){
+            const nome = document.getElementById("nome").value;
+            if (!nome){
+                alert("Digite um nome!!")
+                return;
+            }
+            api("POST",{nome})
+            .then(r=>r.json())
+            .then(d=>{
+                document.getElementById("nome").value = ""
+                listar()
+                document.getElementById("saida").textContent = "GET/DADOS \n \n" + JSON.stringify(d,null,2);
+            })
+        }
+    </script>
+</body>
+</html>
